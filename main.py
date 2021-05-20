@@ -24,41 +24,61 @@ class Hangman:
     turn_count = 0
     error_count = 0
     def play():
-        bool = 0
 
-        letter = input('Enter a letter please')
-        #Here is how i verified if it is a letter or not (using isalpha.. It helps to know if the characters are alphabet letters)
-        #and Also if there only one Character by using the lenght of the word
-        while(bool == 0):
+        while Hangman.correctly_guessed_letters != Hangman.word_to_find:
+            bool = 0
 
-            while len(letter) !=1:
-                letter = input('Only one letter Please')
+            letter = input('Enter a letter please')
+            #Here is how i verified if it is a letter or not (using isalpha.. It helps to know if the characters are alphabet letters)
+            #and Also if there only one Character by using the lenght of the word
+            while(bool == 0):
 
-            if not letter.isalpha():
-                letter = input('Please enter a letter')
-            else:
-                print('it is a letter')
-                bool = 1
-        #print(letter)
-        findletter = 0
-        for x in Hangman.word_to_find:
-            if x == letter:
-                findletter = 1
-                break
+                while len(letter) !=1:
+                    letter = input('Only one letter Please')
 
+                if not letter.isalpha():
+                    letter = input('Please enter a letter')
+                else:
+                    print('it is a letter')
+                    bool = 1
 
-        count = 0
-        if findletter==1:
+            #I create a variable -> findletter and i used it like a boolean to know if i find the letter with my loop
+            findletter = 0
             for x in Hangman.word_to_find:
-                print(x)
                 if x == letter:
-                    print(str(count) + " Ici l'id")
-                    Hangman.correctly_guessed_letters[count] = x
+                    findletter = 1
+                    break
+            #I use a condition to know if i have find the letter then i loop on the word_to_find to know the index of the letter
+            #and then i repalce the empty space with the letter find
+            count = 0
+            if findletter==1:
+                for x in Hangman.word_to_find:
+                    if x == letter:
+                        print(str(count) + " Ici l'id")
+                        Hangman.correctly_guessed_letters[count] = x
 
-                count += 1
-        print(Hangman.correctly_guessed_letters)
+                    count += 1
+            else:
+                Hangman.wrongly_guessed_letters.append(letter)
+                Hangman.error_count+=1
+
+
+
+            print(Hangman.correctly_guessed_letters)
+            print(Hangman.wrongly_guessed_letters)
+            print("Error Count "+str(Hangman.error_count))
+
+    def game_over():
+        print("game over")
+
+
+    def well_played():
+        print(f'You found the word: {Hangman.word_to_find} in {Hangman.turn_count} turn with {Hangman.error_count}')
+
+    def start_game():
+        Hangman.play()
 
     #print(word_to_find)
 
 
-Hangman.play()
+Hangman.start_game()
