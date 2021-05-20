@@ -25,7 +25,7 @@ class Hangman:
     error_count = 0
     def play():
 
-        while Hangman.correctly_guessed_letters != Hangman.word_to_find:
+        while Hangman.correctly_guessed_letters != Hangman.word_to_find and Hangman.lives>0:
             bool = 0
 
             letter = input('Enter a letter please')
@@ -39,7 +39,6 @@ class Hangman:
                 if not letter.isalpha():
                     letter = input('Please enter a letter')
                 else:
-                    print('it is a letter')
                     bool = 1
 
             #I create a variable -> findletter and i used it like a boolean to know if i find the letter with my loop
@@ -54,31 +53,36 @@ class Hangman:
             if findletter==1:
                 for x in Hangman.word_to_find:
                     if x == letter:
-                        print(str(count) + " Ici l'id")
                         Hangman.correctly_guessed_letters[count] = x
 
                     count += 1
             else:
                 Hangman.wrongly_guessed_letters.append(letter)
                 Hangman.error_count+=1
-
+                Hangman.lives-=1
 
 
             print(Hangman.correctly_guessed_letters)
-            print(Hangman.wrongly_guessed_letters)
+            print("Error letters : "+str(Hangman.wrongly_guessed_letters))
             print("Error Count "+str(Hangman.error_count))
+            print("Remaining "+str(Hangman.lives))
 
     def game_over():
         print("game over")
 
 
     def well_played():
-        print(f'You found the word: {Hangman.word_to_find} in {Hangman.turn_count} turn with {Hangman.error_count}')
+        print(f'You found the word: {Hangman.n} in {Hangman.turn_count} turn with {Hangman.error_count} errors')
 
     def start_game():
-        Hangman.play()
 
-    #print(word_to_find)
+            Hangman.play()
+            if Hangman.lives ==0:
+                Hangman.game_over()
+            else:
+                Hangman.well_played()
+
+    
 
 
 Hangman.start_game()
